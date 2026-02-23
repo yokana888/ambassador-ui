@@ -147,7 +147,7 @@ export class DataForm {
         }
 
         if (newValue) {
-            this.data.invoiceNo = newValue.invoiceNo;
+            this.data.invoiceNo = `${packingList.invoiceNo} - ${packingList.increment}`;
             this.data.packingListId = newValue.id;
 
             var packingList = await this.service.getPackingListById(this.data.packingListId);

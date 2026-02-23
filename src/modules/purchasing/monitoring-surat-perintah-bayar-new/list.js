@@ -15,9 +15,7 @@ var SPBLoader = require('../../../loader/unit-payment-order-loader')
 export class List {
     constructor(service) {
         this.service = service;
-
         this.flag = false;
-
         this.error = {};
     }
 
@@ -101,7 +99,6 @@ export class List {
     search() {
         this.error = {};
 
-
         if (Object.getOwnPropertyNames(this.error).length === 0) {
             this.flag = true;
             this.prTable.refresh();
@@ -120,9 +117,7 @@ export class List {
         this.dateTo = undefined;
         this.dateFrom = undefined;
         this.error = {};
-
         this.flag = false;
-        //this.prTable.refresh();
     }
 
     loader = (info) => {
@@ -139,7 +134,6 @@ export class List {
             unitId: this.unit ? this.unit.Id : "",
             dateTo: this.dateTo ? moment(this.dateTo).format("MM/DD/YYYY") : "",
             dateFrom: this.dateFrom ? moment(this.dateFrom).format("MM/DD/YYYY") : "",
-
         };
 
         return this.flag ?
@@ -172,7 +166,6 @@ export class List {
                 unitId: this.unit ? this.unit.Id : "",
                 dateTo: this.dateTo ? moment(this.dateTo).format("MM/DD/YYYY") : "",
                 dateFrom: this.dateFrom ? moment(this.dateFrom).format("MM/DD/YYYY") : "",
-
             };
 
             this.service.getXls(args)

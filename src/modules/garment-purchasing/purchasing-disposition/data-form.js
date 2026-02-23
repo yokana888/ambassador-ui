@@ -103,15 +103,12 @@ export class DataForm {
         if (this.data.Items)
             this.data.Items.splice(0);
         var _selectedSupplier = newValue;
-        if (_selectedSupplier.Id || _selectedSupplier._id) {
+        if (_selectedSupplier != null && (_selectedSupplier.Id || _selectedSupplier._id)) {
             this.data.Supplier = _selectedSupplier;
             this.data.SupplierId = _selectedSupplier.Id || _selectedSupplier._id;
             this.data.SupplierName = _selectedSupplier.name;
             this.data.SupplierCode = _selectedSupplier.code;
             this.data.SupplierIsImport = _selectedSupplier.import
-            // this.data.Supplier._id=_selectedSupplier.Id;
-            // this.data.Supplier.code=_selectedSupplier.Code;
-            // this.data.Supplier.name=_selectedSupplier.Name;
         }
         else {
             this.data.Supplier = {};
@@ -120,7 +117,6 @@ export class DataForm {
     }
 
     selectedCurrencyChanged(newValue) {
-        console.log("selectedCurrency", newValue);
         this.data.Currency = {};
         if (this.data.Items)
             this.data.Items.splice(0);

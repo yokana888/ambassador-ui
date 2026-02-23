@@ -51,7 +51,8 @@ export class DataForm {
         this.isItem = false;
 
         if (!this.data.OrderDate) {
-            this.data.OrderDate = new Date().toLocaleDateString();
+            const d = new Date();
+            this.data.OrderDate =  `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()}`;
         }
 
         if (this.data.Category) {
