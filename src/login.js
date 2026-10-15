@@ -4,6 +4,8 @@ import { Config } from "aurelia-api";
 import '../styles/signin.css';
 import JSEncrypt from 'jsencrypt';
 import { PasswordValidator } from './utils/password-validator';
+import firebase from './utils/firebase-messaging';
+import firebaseMessagingConfig from './utils/firebase-config';
 
 @inject(AuthService, Config)
 export class Login {
@@ -57,16 +59,21 @@ export class Login {
         const encryptor = new JSEncrypt.JSEncrypt();
         encryptor.setPublicKey(PUBLIC_KEY);
         const authEncrypted = encryptor.encrypt(JSON.stringify(credentials));
+        const fcmTokenPromise = getCurrentFcmToken();
         //return this.authService.login({ "username": this.username, "password": this.password })
         return this.authService.login({ authEncrypted })
             .then(response => {
                 console.log("success logged " + response);
 
-                // Update last login dengan source 'login'
-                // this.authEndpoint.update('me', null, { source: 'login' })
-                //     .then(() => console.log('Last login updated (source: login)'))
-                //     .catch(err => console.error('Error updating last login on sign in:', err));
-
+                return fcmTokenPromise.then((token) => {
+                    const body = { source: 'login' };
+                    if (token) body.fcmToken = token;
+                    return this.authEndpoint.update('me', null, body);
+                }).catch((err) => {
+                    console.error('Error updating FCM token on sign in:', err);
+                });
+            })
+            .then(() => {
                 this.statusMessage = PasswordValidator.validate(this.password);
                 
                 if (this.statusMessage) {
@@ -122,4 +129,50 @@ export class Login {
             });
     }
 
+}
+
+function getCurrentFcmToken() {
+    if (window.isSecureContext === false ||
+        !('serviceWorker' in navigator) || !('Notification' in window)) {
+        return Promise.resolve(null);
+    }
+
+    try {
+        if (typeof firebase.messaging !== 'function' ||
+            typeof firebase.messaging.isSupported !== 'function' ||
+            !firebase.messaging.isSupported()) {
+            return Promise.resolve(null);
+        }
+
+        const permissionPromise = Notification.permission === 'default'
+            ? Notification.requestPermission()
+            : Promise.resolve(Notification.permission);
+
+        return permissionPromise.then((permission) => {
+            if (permission !== 'granted') {
+                return null;
+            }
+
+            const app = firebase.apps.length
+                ? firebase.app()
+                : firebase.initializeApp(firebaseMessagingConfig.firebaseConfig);
+            const messaging = firebase.messaging(app);
+
+            return navigator.serviceWorker.register('/firebase-messaging-sw.js')
+                .then((registration) => messaging.getToken({
+                    vapidKey: firebaseMessagingConfig.vapidKey,
+                    serviceWorkerRegistration: registration
+                }))
+                .then((token) => {
+                    if (token) console.log('Token FCM:', token);
+                    return token;
+                });
+        }).catch((error) => {
+            console.error('Gagal mendapatkan token FCM saat login:', error);
+            return null;
+        });
+    } catch (error) {
+        console.error('Gagal menyiapkan token FCM saat login:', error);
+        return Promise.resolve(null);
+    }
 }

@@ -112,7 +112,11 @@ let config = generateConfig(
 
     ...(ENV === 'production' || ENV === 'development' ? [
         commonChunksOptimize({ appChunkName: 'app', firstChunk: 'aurelia-bootstrap' }),
-        copyFiles({ patterns: [{ from: 'favicon.ico', to: 'favicon.ico' }] })
+        copyFiles({ patterns: [
+            { from: 'favicon.ico', to: 'favicon.ico' },
+            { from: 'src/utils/firebase-config.js', to: 'firebase-config.js' },
+            { from: 'src/utils/firebase-messaging-sw.js', to: 'firebase-messaging-sw.js' }
+        ] })
     ] : [
         /* ENV === 'test' */
         generateCoverage({ options: { 'force-sourcemap': true, esModules: true } })
