@@ -83,14 +83,12 @@ export class DataForm {
                 "Unit Asal",
                 "Kode Barang",
                 "Nama Barang",
-                "PO No",
                 "Satuan",
                 "Jumlah Keluar"
             ] : [
                 "Unit Asal",
                 "Kode Barang",
                 "Nama Barang",
-                "PO No",
                 "Satuan",
                 "Jumlah Stock",
                 "Jumlah Keluar"
@@ -116,12 +114,12 @@ export class DataForm {
             columns = this.readOnly ? [
                 { header: "Komoditi", value: "LeftoverComodity" },
                 { header: "Unit Asal", value: "UnitCode" },
-                { header: "RO", value: "RONo" },
+                // { header: "RO", value: "RONo" },
                 { header: "Jumlah Keluar", value: "Quantity" },
             ] : [
                 { header: "Komoditi", value: "LeftoverComodity" },
                 { header: "Unit Asal", value: "UnitCode" },
-                { header: "RO", value: "RONo" },
+                // { header: "RO", value: "RONo" },
                 { header: "Jumlah Stock", value: "StockQuantity" },
                 { header: "Jumlah Keluar", value: "Quantity" },
             ];
@@ -158,7 +156,7 @@ export class DataForm {
 
         for (var item of this.data.Items) {
             item.type = this.data.AvalType;
-            this.items.options.itemList.push(item.ProductCode || item.LeftoverComodityCode);
+            this.items.options.itemList.push(item.ProductCode || (item.Product || {}).Code || item.LeftoverComodityCode);
         }
 
         this.selectedType = this.data.AvalType;
@@ -200,12 +198,14 @@ export class DataForm {
     }
 
     expenditureTypesChanged() {
-        if (this.data.ExpenditureType == "AVAL" || this.data.ExpenditureType == "BARANG JADI") 
-        {
+        if (this.data.ExpenditureType == "AVAL" || this.data.ExpenditureType == "BARANG JADI") {
             this.expenditureDestinationTemp = this.expenditureDestinations.filter(x => x != "UNIT");
+        } else {
+            this.expenditureDestinationTemp = this.expenditureDestinations;
         }
 
         this.data.Items.splice(0);
+        this.items.options.itemList.splice(0);
     }
 
     selectedUnitChanged(newValue) {
@@ -224,7 +224,7 @@ export class DataForm {
 
     get removeItems() {
         return (event) => {
-            var _ro = event.detail.ProductCode || event.detail.LeftoverComodityCode;
+            var _ro = event.detail.ProductCode || (event.detail.Product || {}).Code || event.detail.LeftoverComodityCode || (event.detail.LeftoverComodity || {}).Code;
             if (this.items.options.itemList.includes(_ro)) {
                 this.items.options.itemList.splice(this.items.options.itemList.indexOf(_ro), 1);
             }

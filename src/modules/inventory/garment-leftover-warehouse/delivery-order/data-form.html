@@ -6,7 +6,7 @@
         </au-textbox>
 
         <au-datepicker label="Tgl DO Gudang Sisa" value.bind="data.DODate" error.bind="error.DODate"
-            read-only.bind="readOnly" options.bind="controlOptions">
+            error.bind="error.DODate" read-only.bind="readOnly" options.bind="controlOptions">
         </au-datepicker>
 
         <au-dropdown label="Jenis Pengeluaran" items.bind="expenditureTypes" value.bind="data.ExpenditureType"
@@ -77,7 +77,7 @@
         </au-collection>
 
         <au-collection columns.bind="items.columns" items.bind="data.Items" errors.bind="error.Items" add.bind="items.onAdd"
-            read-only.bind="readOnly" options.bind="items.options" if.bind="data.ExpenditureType == 'ACCESSORIES'"
+            remove.bind="removeItems" read-only.bind="readOnly" options.bind="items.options" if.bind="data.ExpenditureType == 'ACCESSORIES'"
             item-template="modules/inventory/garment-leftover-warehouse/delivery-order/template/acc/item">
         </au-collection>
         
