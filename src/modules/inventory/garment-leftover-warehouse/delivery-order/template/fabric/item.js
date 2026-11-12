@@ -20,8 +20,6 @@ export class Item {
         this.error = context.error;
         this.options = context.options;
 
-        console.log(context);
-
         this.itemList = context.context.options.itemList;
         this.isEdit = context.context.options.isEdit && this.data.Id > 0;
 
@@ -59,13 +57,8 @@ export class Item {
         return async (keyword) => {
             var info = {
                 keyword: keyword,
-                filter: JSON.stringify({
-                    ReferenceType: "FABRIC",
-                    UnitId: (this.data.Unit || {}).Id || 0,
-                    "Quantity > 0": true,
-                    PONo: null
-                }),
-                //select: JSON.stringify(["ProductCode", "ProductName", "ProductId"]),
+                filter: JSON.stringify(this.productLoaderFilter),
+                select: this.productLoaderSelect,
                 size: 10
             };
 
@@ -75,30 +68,31 @@ export class Item {
         }
     }
 
-    // get productLoaderSelect() {
-    //     return ["ProductCode", "ProductName", "ProductId"];
-    // }
+    get productLoaderSelect() {
+        return ["ProductCode", "ProductName", "ProductId"];
+    }
 
-    // @computedFrom("data.Unit", "context.context.items.length")
-    // get productLoaderFilter() {
-    //     return {
-    //         ReferenceType: "FABRIC",
-    //         UnitId: (this.data.Unit || {}).Id || 0,
-    //         "Quantity > 0": true,
-    //         PONo: null
-    //     };
-    // }
+    @computedFrom("data.Unit", "context.context.items.length")
+    get productLoaderFilter() {
+        return {
+            ReferenceType: "FABRIC",
+            UnitId: (this.data.Unit || {}).Id || 0,
+            "Quantity > 0": true,
+            PONo: null
+        };
+    }
 
     selectedUnitChanged(newValue) {
         this.data.Unit = newValue;
         this.selectedProduct = null;
-        this.data.Product = null;
         this.data.Stocks = null;
         this.uomItems = [""];
         this.selectedUom = null;
 
         if (this.data.Product != null) 
             this.itemList.splice(this.itemList.indexOf((this.data.Product || {}).Code), 1);
+
+        this.data.Product = null;
     }
 
     selectedProductChanged(newValue, oldValue) {
