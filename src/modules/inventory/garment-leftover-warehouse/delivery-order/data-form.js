@@ -66,12 +66,14 @@ export class DataForm {
         if (this.data.ExpenditureType === "FABRIC") {
             columns = this.readOnly ? [
                 "Unit Asal",
-                "PO No",
+                "Kode Barang",
+                "Nama Barang",
                 "Satuan",
                 "Jumlah Keluar"
             ] : [
                 "Unit Asal",
-                "PO No",
+                "Kode Barang",
+                "Nama Barang",
                 "Satuan",
                 "Jumlah Stock",
                 "Jumlah Keluar"
@@ -132,6 +134,7 @@ export class DataForm {
             }.bind(this),
             options: {
                 isEdit: this.isEdit,
+                itemList: [],
                 existingItems: this.existingItems
             }
         };
@@ -155,6 +158,7 @@ export class DataForm {
 
         for (var item of this.data.Items) {
             item.type = this.data.AvalType;
+            this.items.options.itemList.push(item.ProductCode || item.LeftoverComodityCode);
         }
 
         this.selectedType = this.data.AvalType;
@@ -167,7 +171,6 @@ export class DataForm {
             });
 
             this.selectedUnit = this.data.ExpenditureTo == "UNIT" ? this.data.UnitExpenditure : null;
-
             this.items.options.existingItems = this.existingItems;
             if (this.data.LocalSalesNoteId) {
                 this.selectedSalesNote = {
@@ -221,6 +224,11 @@ export class DataForm {
 
     get removeItems() {
         return (event) => {
+            var _ro = event.detail.ProductCode || event.detail.LeftoverComodityCode;
+            if (this.items.options.itemList.includes(_ro)) {
+                this.items.options.itemList.splice(this.items.options.itemList.indexOf(_ro), 1);
+            }
+
             this.error = null;
         };
     }
