@@ -260,8 +260,7 @@ export async function configure(aurelia) {
             var auth = "https://com-ambassador-service-auth-dev.azurewebsites.net/v1/";
             var productionAzure = "https://com-ambassador-service-finishing-printing.azurewebsites.net/v1/";
             var purchasingAzure = "https://com-ambassador-service-purchasing-dev.azurewebsites.net/v1/";
-            //var inventoryAzure = "https://com-ambassador-service-inventory-dev.azurewebsites.net/v1/";
-            var inventoryAzure = "http://localhost:5265/v1/";
+            var inventoryAzure = "https://com-ambassador-service-inventory-dev.azurewebsites.net/v1/";
             var customsReport = "https://com-ambassador-service-support.azurewebsites.net/v1/";
             const sales = "https://com-ambassador-service-sales-dev.azurewebsites.net/v1/";
             var finance = "https://com-ambassador-service-finance-accounting-dev.azurewebsites.net/v1/";
