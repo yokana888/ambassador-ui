@@ -1251,6 +1251,21 @@ module.exports = [
     //   },
     // END
     {
+        route: "garment-production/packing-draft-demo",
+        name: "garment-production/packing-draft-demo",
+        moduleId: "modules/garment-production/packing-draft-demo/index",
+        nav: true,
+        title: "Draft Packing",
+        auth: true,
+        settings: {
+            group: "g-production",
+            subGroup: "packing list",
+            // permission: { "C9": 1, "FP": 1 },
+            permission: { "O72": 1 },
+            iconClass: "fa fa-dashboard"
+        }
+    },
+    {
         route: "garment-production/packing-list-merged",
         name: "garment-production/packing-list-merged",
         moduleId: "modules/garment-production/packing-list-merged/index",
