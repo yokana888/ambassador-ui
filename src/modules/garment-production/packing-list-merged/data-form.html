@@ -28,10 +28,13 @@
     <au-input-form title.bind="title" title.bind="title" with.bind="context" options.bind="formOptions">
         <div class="alert alert-info" role="alert" if.bind="alertInfo" innerhtml.bind="alertInfo"></div>
         <div class="row">
-            <div class="col-sm-6 tab ${activeTab === 0 ? 'active' : ''}" click.delegate="changeRole(0)">
+            <div class="col-sm-4 tab ${activeTab === 0 ? 'active' : ''}" click.delegate="changeRole(0)">
                 DESCRIPTION
             </div>
-            <div class="col-sm-6 tab ${activeTab === 1 ? 'active' : ''}" click.delegate="changeRole(1)">
+            <div class="col-sm-4 tab ${activeTab === 1 ? 'active' : ''}" click.delegate="changeRole(1)">
+                DETAIL MEASUREMENT
+            </div>
+            <div class="col-sm-4 tab ${activeTab === 2 ? 'active' : ''}" click.delegate="changeRole(2)">
                 SHIPPING MARK - SIDE MARK - REMARK
             </div>
         </div>
@@ -158,8 +161,76 @@
             </div>
         </div>
 
-        <!-- MARK -->
+        <!-- MEASUREMENT -->
         <div class="row" show.bind="activeTab==1">
+            <div class="row">
+                <div class="col-sm-4">
+                    <numeric label="GROSS WEIGHT" value.bind="data.grossWeight" error.bind="error.GrossWeight" read-only.bind="readOnly"
+                        options.bind="controlOptions">
+                    </numeric>
+                </div>
+                <div class="col-sm-4">
+                    <numeric label="NETT WEIGHT" value.bind="data.nettWeight" error.bind="error.NettWeight" read-only.bind="readOnly"
+                        options.bind="controlOptions">
+                    </numeric>
+                </div>
+                <!-- <div class="col-sm-3">
+                    <numeric label="NET NET WEIGHT" if.bind="data.packingListType == 'EXPORT'" value.bind="data.netNetWeight" error.bind="error.NetNetWeight" read-only="true" 
+                        options.bind="controlOptions">
+                    </numeric>
+                </div> -->
+                <div class="col-sm-4">
+                    <au-textbox label="TOTAL QUANTITY" value.bind="totalQuantities" error.bind="error.totalQuantities"
+                        read-only="true" options.bind="controlOptions">
+                    </au-textbox>
+                </div>
+            </div>
+            <!-- <div class="class row">
+                <numeric label="TOTAL" value.bind="data.totalCartons" error.bind="error.totalCartons" read-only.bind="readOnly"
+                    options.bind="controlOptions">
+                </numeric>
+            </div> -->
+            <div class="class row">
+                <div class="col-sm-12">
+                    <au-numeric label="TOTAL" value.bind="data.totalCartons" read-only.bind="readOnly" 
+                        error.bind="error.totalCartons" options.bind="controlOptions">
+                    </au-numeric>
+                    <au-textbox label="SAY" value.bind="say" read-only.bind="true">
+                    </au-textbox>
+                    <au-textbox value.bind="data.sayUnit" error.bind="error.SayUnit" read-only.bind="readOnly"
+                        options.bind="controlOptions">
+                    </au-textbox>
+                </div>
+            </div>
+            <div class="class row">
+                <div class="col-md-12">
+                    <au-textbox label="Komoditi" value.bind="data.otherCommodity" error.bind="error.OtherCommodity"
+                        read-only.bind="readOnly" options.bind="controlOptions">
+                    </au-textbox>
+                    <au-numeric label="TOTAL CBM" value.bind="data.totalVolume" error.bind="error.totalVolume" 
+                        read-only.bind="readOnly" options.bind="controlOptions">
+                    </au-numeric>
+                </div>
+            </div>
+            <!-- <div>
+                <p class="help-block text-left tbl">MEASUREMENT</p>
+            </div> -->
+            <!-- <div class="form-group has-error">
+                <p if.bind="error.MeasurementsCount" class="help-block text-center">${error.MeasurementsCount}</p>
+            </div>
+            <div class="tbl">
+                <au-collection items.bind="data.measurements" errors.bind="error.Measurements" columns.bind="measureColumns"
+                    read-only.bind="readOnly || data.invoiceType=='DL'" add.bind="addMeasurements"
+                    remove.bind="removeMeasurements" options.bind="Options"
+                    item-template="modules/garment-shipping/packing-list/template/detail-measurement">
+                </au-collection>
+            </div>
+        
+            <p class="tbl" if.bind="data.measurements"><b>TOTAL CBM : ${totalCBM} </b></p> -->
+        </div>
+
+        <!-- MARK -->
+        <div class="row" show.bind="activeTab==2">
             <div class="row">
                 <label class="col-sm-3 text-right">SHIPPING MARK</label>
                 <div class="col-sm-7">

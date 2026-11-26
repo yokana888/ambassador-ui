@@ -777,17 +777,17 @@ export class Item {
     return (event) => {
       this.error = null;
       //this.reorderDetailRows();
-      this.updateTotalSummary();
-      this.updateMeasurements();
+      //this.updateTotalSummary();
+      //this.updateMeasurements();
     };
   }
 
-  updateMeasurements() {
-    const options = this.context.context.options;
-    if (options && typeof options.updateMeasurements === "function") {
-      options.updateMeasurements();
-    }
-  }
+  // updateMeasurements() {
+  //   const options = this.context.context.options;
+  //   if (options && typeof options.updateMeasurements === "function") {
+  //     options.updateMeasurements();
+  //   }
+  // }
 
   get totalQty() {
     let qty = 0;
@@ -845,21 +845,21 @@ export class Item {
     return this.data.amount;
   }
 
-  updateTotalSummary() {
-    this.context.context.options.header.grossWeight = 0;
-    this.context.context.options.header.nettWeight = 0;
-    this.context.context.options.header.netNetWeight = 0;
+  // updateTotalSummary() {
+  //   this.context.context.options.header.grossWeight = 0;
+  //   this.context.context.options.header.nettWeight = 0;
+  //   this.context.context.options.header.netNetWeight = 0;
 
-    this.data.subGrossWeight = this.sumSubTotal(0);
-    this.data.subNetWeight = this.sumSubTotal(1);
-    this.data.subNetNetWeight = this.sumSubTotal(2);
+  //   this.data.subGrossWeight = this.sumSubTotal(0);
+  //   this.data.subNetWeight = this.sumSubTotal(1);
+  //   this.data.subNetNetWeight = this.sumSubTotal(2);
 
-    for (const item of this.context.context.options.header.items) {
-      this.context.context.options.header.grossWeight += item.subGrossWeight || 0;
-      this.context.context.options.header.nettWeight += item.subNetWeight || 0;
-      this.context.context.options.header.netNetWeight += item.subNetNetWeight || 0;
-    }
-  }
+  //   for (const item of this.context.context.options.header.items) {
+  //     this.context.context.options.header.grossWeight += item.subGrossWeight || 0;
+  //     this.context.context.options.header.nettWeight += item.subNetWeight || 0;
+  //     this.context.context.options.header.netNetWeight += item.subNetNetWeight || 0;
+  //   }
+  // }
 
   uomChanged(newValue) {
     if (newValue) {

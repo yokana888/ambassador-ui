@@ -76,7 +76,7 @@ export class DataForm {
     countries = ["", "AFGHANISTAN", "ALBANIA", "ALGERIA", "ANDORRA", "ANGOLA", "ANGUILLA", "ANTIGUA AND BARBUDA", "ARGENTINA", "ARMENIA", "ARUBA", "AUSTRALIA", "AUSTRIA", "AZERBAIJAN", "BAHAMAS", "BAHRAIN", "BANGLADESH", "BARBADOS", "BELARUS", "BELGIUM", "BELIZE", "BENIN", "BERMUDA", "BHUTAN", "BOLIVIA", "BOSNIA AND HERZEGOVINA", "BOTSWANA", "BRAZIL", "BRITISH VIRGIN ISLANDS", "BRUNEI", "BULGARIA", "BURKINA FASO", "BURUNDI", "CAMBODIA", "CAMEROON", "CANADA", "CAPE VERDE", "CAYMAN ISLANDS", "CHAD", "CHILE", "CHINA", "COLOMBIA", "CONGO", "COOK ISLANDS", "COSTA RICA", "COTE D IVOIRE", "CROATIA", "CRUISE SHIP", "CUBA", "CYPRUS", "CZECH REPUBLIC", "DENMARK", "DJIBOUTI", "DOMINICA", "DOMINICAN REPUBLIC", "ECUADOR", "EGYPT", "EL SALVADOR", "EQUATORIAL GUINEA", "ESTONIA", "ETHIOPIA", "FALKLAND ISLANDS", "FAROE ISLANDS", "FIJI", "FINLAND", "FRANCE", "FRENCH POLYNESIA", "FRENCH WEST INDIES", "GABON", "GAMBIA", "GEORGIA", "GERMANY", "GHANA", "GIBRALTAR", "GREECE", "GREENLAND", "GRENADA", "GUAM", "GUATEMALA", "GUERNSEY", "GUINEA", "GUINEA BISSAU", "GUYANA", "HAITI", "HONDURAS", "HONG KONG", "HUNGARY", "ICELAND", "INDIA", "INDONESIA", "IRAN", "IRAQ", "IRELAND", "ISLE OF MAN", "ISRAEL", "ITALY", "JAMAICA", "JAPAN", "JERSEY", "JORDAN", "KAZAKHSTAN", "KENYA", "KUWAIT", "KYRGYZ REPUBLIC", "LAOS", "LATVIA", "LEBANON", "LESOTHO", "LIBERIA", "LIBYA", "LIECHTENSTEIN", "LITHUANIA", "LUXEMBOURG", "MACAU", "MACEDONIA", "MADAGASCAR", "MALAWI", "MALAYSIA", "MALDIVES", "MALI", "MALTA", "MAURITANIA", "MAURITIUS", "MEXICO", "MOLDOVA", "MONACO", "MONGOLIA", "MONTENEGRO", "MONTSERRAT", "MOROCCO", "MOZAMBIQUE", "NAMIBIA", "NEPAL", "NETHERLANDS", "NETHERLANDS ANTILLES", "NEW CALEDONIA", "NEW ZEALAND", "NICARAGUA", "NIGER", "NIGERIA", "NORTH KOREA", "NORWAY", "OMAN", "PAKISTAN", "PALESTINE", "PANAMA", "PAPUA NEW GUINEA", "PARAGUAY", "PERU", "PHILIPPINES", "POLAND", "PORTUGAL", "PUERTO RICO", "QATAR", "REUNION", "ROMANIA", "RUSSIA", "RWANDA", "SAINT PIERRE AND MIQUELON", "SAMOA", "SAN MARINO", "SATELLITE", "SAUDI ARABIA", "SENEGAL", "SERBIA", "SEYCHELLES", "SIERRA LEONE", "SINGAPORE", "SLOVAKIA", "SLOVENIA", "SOUTH AFRICA", "SOUTH KOREA", "SPAIN", "SRI LANKA", "ST KITTS AND NEVIS", "ST LUCIA", "ST VINCENT", "ST. LUCIA", "SUDAN", "SURINAME", "SWAZILAND", "SWEDEN", "SWITZERLAND", "SYRIA", "TAIWAN", "TAJIKISTAN", "TANZANIA", "THAILAND", "TIMOR L'ESTE", "TOGO", "TONGA", "TRINIDAD AND TOBAGO", "TUNISIA", "TURKEY", "TURKMENISTAN", "TURKS AND CAICOS", "UGANDA", "UKRAINE", "UNITED ARAB EMIRATES", "UNITED KINGDOM", "UNITED STATES OF AMERICA", "URUGUAY", "UZBEKISTAN", "VENEZUELA", "VIETNAM", "VIRGIN ISLANDS (US)", "YEMEN", "ZAMBIA", "ZIMBABWE"];
 
     get say() {
-        var number = this.data.totalCartons;
+        var number = this.data.totalCartons || 0;
 
         const first = ['', 'one ', 'two ', 'three ', 'four ', 'five ', 'six ', 'seven ', 'eight ', 'nine ', 'ten ', 'eleven ', 'twelve ', 'thirteen ', 'fourteen ', 'fifteen ', 'sixteen ', 'seventeen ', 'eighteen ', 'nineteen '];
         const tens = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
@@ -144,7 +144,7 @@ export class DataForm {
             //     this.reorderDetailRows();
             //     this.updateMeasurements();
             // },
-            updateMeasurements: () => this.updateMeasurements()
+            //updateMeasurements: () => this.updateMeasurements()
         }
 
         this.data.isFile = true;
@@ -202,26 +202,26 @@ export class DataForm {
         };
     }
 
-    reorderDetailRows() {
-        let currentStart = 1;
+    // reorderDetailRows() {
+    //     let currentStart = 1;
 
-        for (const item of (this.data.items || [])) {
-            for (const row of (item.detailRows || [])) {
-                const cartons = Number(row.cartons) || 1;
-                const qtyPerCarton = Number(row.qtyDisplay) || 0;
+    //     for (const item of (this.data.items || [])) {
+    //         for (const row of (item.detailRows || [])) {
+    //             const cartons = Number(row.cartons) || 1;
+    //             const qtyPerCarton = Number(row.qtyDisplay) || 0;
 
-                row.cartons = cartons;
-                row.start = currentStart;
-                row.end = currentStart + cartons - 1;
-                row.number = row.start + " - " + row.end;
-                row.qtyCtn = qtyPerCarton * cartons;
+    //             row.cartons = cartons;
+    //             row.start = currentStart;
+    //             row.end = currentStart + cartons - 1;
+    //             row.number = row.start + " - " + row.end;
+    //             row.qtyCtn = qtyPerCarton * cartons;
 
-                currentStart = row.end + 1;
-            }
+    //             currentStart = row.end + 1;
+    //         }
 
-            validateDetailRowsQuantity(item);
-        }
-    }
+    //         validateDetailRowsQuantity(item);
+    //     }
+    // }
 
     noImage = "images/no-image.jpg";
 
@@ -338,17 +338,17 @@ export class DataForm {
         event.target.value = '';
     }
 
-    get totalCBM() {
-        var total = 0;
-        if (this.data.measurements) {
-            for (var m of this.data.measurements) {
-                if (m.length && m.width && m.height && m.cartonsQuantity) {
-                    total += (m.length * m.width * m.height * m.cartonsQuantity / 1000000);
-                }
-            }
-        }
-        return total.toLocaleString('en-EN', { minimumFractionDigits: 3, maximumFractionDigits: 3 });
-    }
+    // get totalCBM() {
+    //     var total = 0;
+    //     if (this.data.measurements) {
+    //         for (var m of this.data.measurements) {
+    //             if (m.length && m.width && m.height && m.cartonsQuantity) {
+    //                 total += (m.length * m.width * m.height * m.cartonsQuantity / 1000000);
+    //             }
+    //         }
+    //     }
+    //     return total.toLocaleString('en-EN', { minimumFractionDigits: 3, maximumFractionDigits: 3 });
+    // }
 
     get totalQuantities() {
         let quantities = [];
@@ -388,77 +388,77 @@ export class DataForm {
         return result.join(" / ");
     }
 
-    get totalCartons() {
-        let result = 0;
-        if (this.data.items) {
-            for (var item of this.data.items) {
-                if (item.details) {
-                    const newDetails = item.details.map(d => {
-                        return {
-                            carton1: d.carton1,
-                            carton2: d.carton2,
-                            cartonQuantity: d.cartonQuantity,
-                            index: d.index
-                        };
-                    }).filter((value, i, self) => self.findIndex(f => value.carton1 == f.carton1 && value.carton2 == f.carton2 && value.index == f.index) === i);
+    // get totalCartons() {
+    //     let result = 0;
+    //     if (this.data.items) {
+    //         for (var item of this.data.items) {
+    //             if (item.details) {
+    //                 const newDetails = item.details.map(d => {
+    //                     return {
+    //                         carton1: d.carton1,
+    //                         carton2: d.carton2,
+    //                         cartonQuantity: d.cartonQuantity,
+    //                         index: d.index
+    //                     };
+    //                 }).filter((value, i, self) => self.findIndex(f => value.carton1 == f.carton1 && value.carton2 == f.carton2 && value.index == f.index) === i);
 
-                    for (var detail of newDetails) {
-                        const cartonExist = false;
-                        const indexItem = this.data.items.indexOf(item);
-                        if (indexItem > 0) {
-                            for (let i = 0; i < indexItem; i++) {
-                                const item = this.data.items[i];
-                                for (const prevDetail of item.details) {
-                                    if (detail.carton1 == prevDetail.carton1 && detail.carton2 == prevDetail.carton2 && detail.index == prevDetail.index) {
-                                        cartonExist = true;
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                        if (!cartonExist) {
-                            result += detail.cartonQuantity;
-                        }
-                    }
-                }
-            }
+    //                 for (var detail of newDetails) {
+    //                     const cartonExist = false;
+    //                     const indexItem = this.data.items.indexOf(item);
+    //                     if (indexItem > 0) {
+    //                         for (let i = 0; i < indexItem; i++) {
+    //                             const item = this.data.items[i];
+    //                             for (const prevDetail of item.details) {
+    //                                 if (detail.carton1 == prevDetail.carton1 && detail.carton2 == prevDetail.carton2 && detail.index == prevDetail.index) {
+    //                                     cartonExist = true;
+    //                                     break;
+    //                                 }
+    //                             }
+    //                         }
+    //                     }
+    //                     if (!cartonExist) {
+    //                         result += detail.cartonQuantity;
+    //                     }
+    //                 }
+    //             }
+    //         }
 
-            this.data.totalCartons = result;
-            return this.data.totalCartons;
-        }
-    }
+    //         this.data.totalCartons = result;
+    //         return this.data.totalCartons;
+    //     }
+    // }
 
-    updateMeasurements() {
-        let measurements = [];
-        for (const item of (this.data.items || [])) {
-            for (const row of (item.detailRows || [])) {
-                const length = Number(row.length) || 0;
-                const width = Number(row.width) || 0;
-                const height = Number(row.height) || 0;
-                const cartons = Number(row.cartons) || 0;
+    // updateMeasurements() {
+    //     let measurements = [];
+    //     for (const item of (this.data.items || [])) {
+    //         for (const row of (item.detailRows || [])) {
+    //             const length = Number(row.length) || 0;
+    //             const width = Number(row.width) || 0;
+    //             const height = Number(row.height) || 0;
+    //             const cartons = Number(row.cartons) || 0;
 
-                let measurement = measurements.find(m => m.length == length && m.width == width && m.height == height);
-                if (measurement) {
-                    measurement.cartonsQuantity += cartons;
-                } else {
-                    measurements.push({ length, width, height, cartonsQuantity: cartons });
-                }
-            }
-        }
+    //             let measurement = measurements.find(m => m.length == length && m.width == width && m.height == height);
+    //             if (measurement) {
+    //                 measurement.cartonsQuantity += cartons;
+    //             } else {
+    //                 measurements.push({ length, width, height, cartonsQuantity: cartons });
+    //             }
+    //         }
+    //     }
 
-        this.data.measurements = this.data.measurements || [];
-        this.data.measurements.splice(0);
+    //     this.data.measurements = this.data.measurements || [];
+    //     this.data.measurements.splice(0);
 
-        for (const mt of measurements) {
-            let measurement = (this.data.measurementsTemp || []).find(m => m.length == mt.length && m.width == mt.width && m.height == mt.height);
-            if (measurement) {
-                measurement.cartonsQuantity = mt.cartonsQuantity;
-                this.data.measurements.push(measurement);
-            } else {
-                this.data.measurements.push(mt);
-            }
-        }
+    //     for (const mt of measurements) {
+    //         let measurement = (this.data.measurementsTemp || []).find(m => m.length == mt.length && m.width == mt.width && m.height == mt.height);
+    //         if (measurement) {
+    //             measurement.cartonsQuantity = mt.cartonsQuantity;
+    //             this.data.measurements.push(measurement);
+    //         } else {
+    //             this.data.measurements.push(mt);
+    //         }
+    //     }
 
-        this.data.measurements.forEach((m, i) => m.MeasurementIndex = i);
-    }
+    //     this.data.measurements.forEach((m, i) => m.MeasurementIndex = i);
+    // }
 }
