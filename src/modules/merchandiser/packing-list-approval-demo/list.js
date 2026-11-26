@@ -1,12 +1,13 @@
 import { inject, bindable } from 'aurelia-framework';
 import { Service, CoreService } from "./service";
 import { Router } from 'aurelia-router';
+import { AuthService } from "aurelia-authentication";
 import moment from 'moment';
 import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
-@inject(Router, Service, CoreService)
+@inject(Router, Service, CoreService, AuthService)
 export class List {
-    @bindable section;
+    //@bindable section;
 
     context = ["Detail"]
 
@@ -28,14 +29,22 @@ export class List {
         if (info.sort)
             order[info.sort] = info.order;
 
+        let username = null;
+        if (this.authService.authenticated) {
+            const me = this.authService.getTokenPayload();
+            username = me.username;
+        }
+
         var arg = {
             page: parseInt(info.offset / info.limit, 10) + 1,
             size: info.limit,
             keyword: info.search,
             order: order,
-            filter: JSON.stringify({ Status: "POSTED", 
-              SectionCode: this.section,
-              "(IsFile != \"false\")":true
+            filter: JSON.stringify({ 
+                Status: "POSTED", 
+                MdStaffName: username,
+                //SectionCode: this.section,
+                "(IsFile != \"false\")":true
             })
         }
 
@@ -45,6 +54,7 @@ export class List {
                     data.SectionCode = data.section.code;
                     data.BuyerAgentName = data.buyerAgent.name;
                 }
+
                 return {
                     total: result.info.total,
                     data: result.data
@@ -52,10 +62,11 @@ export class List {
             });
     }
 
-    constructor(router, service, coreService) {
+    constructor(router, service, coreService, authService) {
         this.service = service;
         this.router = router;
         this.coreService = coreService;
+        this.authService = authService;
     }
 
     async activate() {
@@ -75,11 +86,11 @@ export class List {
         }
     }
 
-    sectionChanged() {
-        if (this.table) {
-            this.table.refresh();
-        }
-    }
+    // sectionChanged() {
+    //     if (this.table) {
+    //         this.table.refresh();
+    //     }
+    // }
 
     create() {
         this.router.navigateToRoute('create');

@@ -67,6 +67,24 @@
                         options.bind="controlOptions">
                     </au-datepicker>
 
+                    <au-dropdown label="Destination" value.bind="data.destination" error.bind="error.Destination"
+                        read-only="true" items.bind="countries" options.bind="controlOptions">
+                    </au-dropdown>
+
+                    <au-autocomplete value.bind="data.shippingStaff" error.bind="error.ShippingStaff"
+                        label="Shipping Staff" loader.bind="shippingStaffLoader" text.bind="shippingStaffView"
+                        placeholder="Cari Shipping Staff" read-only="true" options.bind="controlOptions">
+                    </au-autocomplete>
+
+                    <au-autocomplete value.bind="data.mdStaff" error.bind="error.MdStaff" label="MD Staff"
+                        loader.bind="mdStaffLoader" text.bind="mdStaffView" placeholder="Cari MD Staff"
+                        read-only.bind="true" options.bind="controlOptions">
+                    </au-autocomplete>
+
+                    <au-checkbox value.bind="data.isFasilitas" error.bind="error.IsFasilitas" label="Menggunakan Fasilitas?"
+                        read-only.bind="readOnly" options.bind="controlOptions">
+                    </au-checkbox>
+
                     <au-multiline value.bind="data.description" label="Keterangan Unit" read-only="true"
                         options.bind="controlOptions">
                     </au-multiline>

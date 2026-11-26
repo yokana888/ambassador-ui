@@ -77,6 +77,10 @@
                         read-only.bind="true" options.bind="controlOptions">
                     </au-autocomplete>
 
+                    <au-checkbox value.bind="data.isFasilitas" error.bind="error.IsFasilitas" label="Menggunakan Fasilitas?"
+                        read-only.bind="readOnly" options.bind="controlOptions">
+                    </au-checkbox>
+
                     <au-multiline value.bind="data.description" label="Keterangan Unit" read-only="true"
                         options.bind="controlOptions">
                     </au-multiline>

@@ -196,61 +196,62 @@ export class DataForm {
         this.data.documentsFileName = this.data.documentsFileName || [];
         this.documentsPathTemp = [].concat(this.data.documentsPath);
 
-        this.totalCBM = "";
-        var total = 0;
-        if (this.data.measurements) {
-            this.data.measurements.map((m) => {
-                if (m.length && m.width && m.height && m.cartonsQuantity) {
-                    total += (m.length * m.width * m.height * m.cartonsQuantity / 1000000);
-                }
-            })
-            this.totalCBM = total.toLocaleString('en-EN', { minimumFractionDigits: 3, maximumFractionDigits: 3 });
-        }
+        //this.totalCBM = "";
+        //var total = 0;
+        // if (this.data.measurements) {
+        //     this.data.measurements.map((m) => {
+        //         if (m.length && m.width && m.height && m.cartonsQuantity) {
+        //             total += (m.length * m.width * m.height * m.cartonsQuantity / 1000000);
+        //         }
+        //     })
+        //     this.totalCBM = total.toLocaleString('en-EN', { minimumFractionDigits: 3, maximumFractionDigits: 3 });
+        // }
 
-        this.terbilang(this.data.totalCartons);
-        this.totalQty();
-        this.data.items.map((item) => {
-            this.sumSubTotal(item);
-        });
+        // this.terbilang(this.data.totalCartons);
+        // this.totalQty();
+
+        // this.data.items.map((item) => {
+        //     this.sumSubTotal(item);
+        // });
     }
 
-    sumSubTotal(item) {
-        item.subGrossWeight = 0;
-        item.subNetWeight = 0;
-        item.subNetNetWeight = 0;
-        const newDetails = item.details.map(d => {
-            return {
-                carton1: d.carton1,
-                carton2: d.carton2,
-                cartonQuantity: d.cartonQuantity,
-                grossWeight: d.grossWeight,
-                netWeight: d.netWeight,
-                netNetWeight: d.netNetWeight
-            };
-        }).filter((value, index, self) => self.findIndex(f => value.carton1 == f.carton1 && value.carton2 == f.carton2) === index);
+    // sumSubTotal(item) {
+    //     item.subGrossWeight = 0;
+    //     item.subNetWeight = 0;
+    //     item.subNetNetWeight = 0;
+    //     const newDetails = item.details.map(d => {
+    //         return {
+    //             carton1: d.carton1,
+    //             carton2: d.carton2,
+    //             cartonQuantity: d.cartonQuantity,
+    //             grossWeight: d.grossWeight,
+    //             netWeight: d.netWeight,
+    //             netNetWeight: d.netNetWeight
+    //         };
+    //     }).filter((value, index, self) => self.findIndex(f => value.carton1 == f.carton1 && value.carton2 == f.carton2) === index);
 
-        for (const detail of newDetails) {
-            const cartonExist = false;
-            const indexItem = this.data.items.indexOf(item);
-            if (indexItem > 0) {
-                for (let i = 0; i < indexItem; i++) {
-                    const item = this.data.items[i];
-                    for (const prevDetail of item.details) {
-                        if (detail.carton1 == prevDetail.carton1 && detail.carton2 == prevDetail.carton2) {
-                            cartonExist = true;
-                            break;
-                        }
-                    }
-                }
-            }
+    //     for (const detail of newDetails) {
+    //         const cartonExist = false;
+    //         const indexItem = this.data.items.indexOf(item);
+    //         if (indexItem > 0) {
+    //             for (let i = 0; i < indexItem; i++) {
+    //                 const item = this.data.items[i];
+    //                 for (const prevDetail of item.details) {
+    //                     if (detail.carton1 == prevDetail.carton1 && detail.carton2 == prevDetail.carton2) {
+    //                         cartonExist = true;
+    //                         break;
+    //                     }
+    //                 }
+    //             }
+    //         }
 
-            if (!cartonExist) {
-                item.subGrossWeight += detail.grossWeight * detail.cartonQuantity;
-                item.subNetWeight += detail.netWeight * detail.cartonQuantity;
-                item.subNetNetWeight += detail.netNetWeight * detail.cartonQuantity;
-            }
-        }
-    }
+    //         if (!cartonExist) {
+    //             item.subGrossWeight += detail.grossWeight * detail.cartonQuantity;
+    //             item.subNetWeight += detail.netWeight * detail.cartonQuantity;
+    //             item.subNetNetWeight += detail.netNetWeight * detail.cartonQuantity;
+    //         }
+    //     }
+    // }
     
     downloadDocument(index) {
         const linkSource = this.data.documentsFile[index];

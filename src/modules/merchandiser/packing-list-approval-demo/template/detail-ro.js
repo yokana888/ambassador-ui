@@ -86,6 +86,8 @@ export class Item {
         this.readOnly = this.options.readOnly;
         this.isCreate = context.context.options.isCreate;
         this.isEdit = context.context.options.isEdit;
+        this.packingListType = context.context.options.header.packingListType
+
         this.itemOptions = {
             error: this.error,
             isCreate: this.isCreate,
@@ -94,16 +96,17 @@ export class Item {
             header: context.context.options.header,
             item : this.data,
         };
+
         if (this.data.roNo) {
             this.selectedRO = {
                 RO_Number: this.data.RONo || this.data.roNo
             };
-        }
+        };
 
         this.isShowing = false;
         if (this.error && this.error.Details && this.error.Details.length > 0) {
             this.isShowing = true;
-        }
+        };
 
         this.avG_GW = this.data.avG_GW;
         this.avG_NW = this.data.avG_NW;
