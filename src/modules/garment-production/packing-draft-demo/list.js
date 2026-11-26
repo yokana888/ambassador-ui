@@ -43,9 +43,9 @@ export class List {
             size: info.limit,
             keyword: info.search,
             order: order,
-            filter: JSON.stringify({ 
-              "(Status != \"CREATED\")": true,
-              "(IsFile != \"false\")":true
+            filter: JSON.stringify({
+                "(Status == \"DRAFT\" || Status == \"DRAFT_POSTED\")": true,
+                "(IsFile != \"false\")": true
             })
         }
 

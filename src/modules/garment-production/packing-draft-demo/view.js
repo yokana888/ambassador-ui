@@ -63,9 +63,9 @@ export class View {
                 this.formOptions.saveText = "Post Booking";
                 break;
             case "REVISED_TO_MD":
-                    this.formOptions.saveText = "";
-                    this.saveCallback = null;
-                    break;
+                this.formOptions.saveText = "";
+                this.saveCallback = null;
+                break;
             case "DRAFT_POSTED":
             case "DRAFT_REJECTED_MD":
             case "DRAFT_REJECTED_SHIPPING":
@@ -101,9 +101,9 @@ export class View {
             case "REVISED_MD":
                 this.alertInfo = "<strong>Alasan Revisi oleh Md:</strong> " + (this.data.statusActivities.slice(-1)[0] || {}).remark;
                 break;
-                case "REVISED_TO_MD":
-                    this.alertInfo = "<strong>Alasan Revisi:</strong> " + (this.data.statusActivities.slice(-1)[0] || {}).remark;
-                    break;
+            case "REVISED_TO_MD":
+                this.alertInfo = "<strong>Alasan Revisi:</strong> " + (this.data.statusActivities.slice(-1)[0] || {}).remark;
+                break;
             case "REVISED_SHIPPING":
                 this.alertInfo = "<strong>Alasan Revisi oleh Shipping:</strong> " + (this.data.statusActivities.slice(-1)[0] || {}).remark;
                 break;
@@ -132,11 +132,12 @@ export class View {
     }
 
     saveCallback() {
-      // Validasi: Pastikan ada minimal 1 file sebelum melanjutkan
-    if (this.data.documentsFile.length === 0) {
-      alert("Wajib mengunggah file dokumen item format PDF atau EXCEL");
-      return; // Berhenti di sini jika tidak ada file yang valid
-  }
+        // Validasi: Pastikan ada minimal 1 file sebelum melanjutkan
+        if (this.data.documentsFile.length === 0) {
+            alert("Wajib mengunggah file dokumen item format PDF atau EXCEL");
+            return; // Berhenti di sini jika tidak ada file yang valid
+        }
+
         if (confirm(this.formOptions.saveText + "?")) {
             switch (this.data.status) {
                 case "DRAFT":
@@ -163,7 +164,7 @@ export class View {
 
                             let errorNotif = "";
                             if (error.InvoiceType || error.Type || error.Date) {
-                              errorNotif += "Tab DESCRIPTION ada kesalahan pengisian.\n"
+                                errorNotif += "Tab DESCRIPTION ada kesalahan pengisian.\n"
                             }
                             // if (error.InvoiceType || error.Type || error.Date || error.ItemsCount || error.Items) {
                             //     errorNotif += "Tab DESCRIPTION ada kesalahan pengisian.\n"
