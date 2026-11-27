@@ -41,10 +41,13 @@
         </div>
 
         <div class="row">
-            <div class="col-sm-6 tab ${activeTab === 0 ? 'active' : ''}" click.delegate="changeRole(0)">
+            <div class="col-sm-4 tab ${activeTab === 0 ? 'active' : ''}" click.delegate="changeRole(0)">
                 DESCRIPTION
             </div>
-            <div class="col-sm-6 tab ${activeTab === 1 ? 'active' : ''}" click.delegate="changeRole(1)">
+            <div class="col-sm-4 tab ${activeTab === 1 ? 'active' : ''}" click.delegate="changeRole(1)">
+                DETAIL MEASUREMENT
+            </div>
+            <div class="col-sm-4 tab ${activeTab === 2 ? 'active' : ''}" click.delegate="changeRole(2)">
                 SHIPPING MARK - SIDE MARK - REMARK
             </div>
         </div>
@@ -165,8 +168,51 @@
             </div>
         </div>
 
+        <!-- MEASUREMENT -->
+        <div class="row" show.bind="activeTab==1">
+            <div class="row">
+                <div class="col-sm-4">
+                    <numeric label="GROSS WEIGHT" value.bind="data.grossWeight" error.bind="error.GrossWeight" read-only.bind="true"
+                        options.bind="controlOptions">
+                    </numeric>
+                </div>
+                <div class="col-sm-4">
+                    <numeric label="NETT WEIGHT" value.bind="data.nettWeight" error.bind="error.NettWeight" read-only.bind="true"
+                        options.bind="controlOptions">
+                    </numeric>
+                </div>
+                <div class="col-sm-4">
+                    <au-textbox label="TOTAL QUANTITY" value.bind="totalQuantities" error.bind="error.totalQuantities"
+                        read-only="true" options.bind="controlOptions">
+                    </au-textbox>
+                </div>
+            </div>
+            <div class="class row">
+                <div class="col-sm-12">
+                    <au-numeric label="TOTAL" value.bind="data.totalCartons" read-only.bind="true" 
+                        error.bind="error.totalCartons" options.bind="controlOptions">
+                    </au-numeric>
+                    <au-textbox label="SAY" value.bind="say" read-only.bind="true">
+                    </au-textbox>
+                    <au-textbox value.bind="data.sayUnit" error.bind="error.SayUnit" read-only.bind="true"
+                        options.bind="controlOptions">
+                    </au-textbox>
+                </div>
+            </div>
+            <div class="class row">
+                <div class="col-md-12">
+                    <au-textbox label="Komoditi" value.bind="data.otherCommodity" error.bind="error.OtherCommodity"
+                        read-only.bind="true" options.bind="controlOptions">
+                    </au-textbox>
+                    <au-numeric label="TOTAL CBM" value.bind="data.totalVolume" error.bind="error.totalVolume" 
+                        read-only.bind="true" options.bind="controlOptions">
+                    </au-numeric>
+                </div>
+            </div>
+        </div>
+
         <!-- MARK -->
-        <div class="row" if.bind="activeTab==1">
+        <div class="row" if.bind="activeTab==2">
             <div class="row">
                 <label class="col-sm-3 text-right">SHIPPING MARK</label>
                 <div class="col-sm-7">
